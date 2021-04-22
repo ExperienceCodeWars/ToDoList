@@ -1,11 +1,11 @@
 package com.example.todolist.persist.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +16,14 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(
+           mappedBy = "user",
+           cascade = CascadeType.ALL,
+           orphanRemoval = true
+    )
+    @Column
+    List<ToDo> toDoList;
 
     public User() {
     }
@@ -42,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<ToDo> getToDoList() {
+        return toDoList;
+    }
+
+    public void setToDoList(List<ToDo> toDoList) {
+        this.toDoList = toDoList;
     }
 }

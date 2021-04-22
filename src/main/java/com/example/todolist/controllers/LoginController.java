@@ -19,6 +19,7 @@ public class LoginController {
 
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     private final UserService userService;
+
     @Autowired
     public LoginController(UserService userService) {
         this.userService = userService;
@@ -41,8 +42,8 @@ public class LoginController {
         if (result.hasErrors()) {
             return "register";
         }
-        if(!userRepr.getPassword().equals(userRepr.getMatchingPassword())){
-            result.rejectValue("password","","Password not matching");
+        if (!userRepr.getPassword().equals(userRepr.getMatchingPassword())) {
+            result.rejectValue("password", "", "Password not matching");
             return "register";
         }
         userService.create(userRepr);

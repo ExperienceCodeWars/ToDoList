@@ -8,6 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
+
+import static com.example.todolist.security.Utils.getCurrentUser;
 
 @Service
 @Transactional
@@ -28,5 +31,13 @@ public class UserService {
         user.setUsername(userRepr.getUserName());
         user.setPassword(passwordEncoder.encode(userRepr.getPassword()));
         userRepository.save(user);
+    }
+
+    public Optional<Long> getCurrentUserId() {
+//        Optional<String> currentUser = getCurrentUser();
+//        return currentUser.flatMap(userName -> userRepository.getUserByUsername(userName).map(User::getId));
+        return getCurrentUser()
+                .flatMap(userRepository::getUserByUsername)
+                .map(User::getId);
     }
 }

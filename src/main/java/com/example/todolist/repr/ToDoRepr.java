@@ -1,5 +1,6 @@
 package com.example.todolist.repr;
 
+import com.example.todolist.persist.entity.ToDo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
@@ -16,10 +17,24 @@ public class ToDoRepr {
     private String userName;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate targetDate;
 
     public ToDoRepr() {
+    }
+
+    public ToDoRepr(Long id, @NotEmpty String description, String username, @NotNull LocalDate targetDate) {
+        this.id = id;
+        this.description = description;
+        this.userName = username;
+        this.targetDate = targetDate;
+    }
+
+    public ToDoRepr(ToDo toDo) {
+        this.id = toDo.getId();
+        this.description = toDo.getDescription();
+        this.targetDate = toDo.getTargetDate();
+        this.userName = toDo.getUser().getUsername();
     }
 
     public Long getId() {
